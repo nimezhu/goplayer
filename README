@@ -6,3 +6,9 @@ This is my solution to that problem.
 
 Andrew Gerrand <adg@golang.org>
 
+
+===
+
+Add index.html to binary compile file using bindata
+
+Xiaopeng Zhu <nimezhu@gmail.com>

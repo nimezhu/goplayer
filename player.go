@@ -1,8 +1,10 @@
 package main
 
+//go:generate go-bindata-assetfs index.html
 import (
 	"encoding/json"
 	"flag"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -21,7 +23,7 @@ const (
 
 var (
 	addr = flag.String("http", ":8080", "http listen address")
-	root = flag.String("root", "/home/flo/nfs/flo/Music/", "music root")
+	root = flag.String("root", "/home/zhuxp/Music/", "music root")
 )
 
 func main() {
@@ -32,7 +34,8 @@ func main() {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./index.html")
+	bytes, _ := Asset("index.html")
+	io.WriteString(w, string(bytes))
 	log.Print("index called")
 }
 
@@ -43,6 +46,7 @@ func File(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
+
 		return
 	}
 	if fi.IsDir() {
